@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>معرض الواقع المعزز</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Tajawal", sans-serif;
+      }
+
+      body {
+        background-color: #f0f2f5;
+        color: #333;
+      }
+
+      header {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: white;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .ar-container {
+        width: 100%;
+        height: 70vh;
+        margin: 2rem 0;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        position: relative;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+
+      .gallery-item {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+      }
+
+      .gallery-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+
+      .gallery-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .gallery-caption {
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #6a11cb;
+        display: inline-block;
+      }
+
+      .instructions {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin: 2rem 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .instructions ol {
+        padding-right: 1.5rem;
+        line-height: 2;
+      }
+
+      footer {
+        background: #333;
+        color: white;
+        text-align: center;
+        padding: 1.5rem;
+        margin-top: 3rem;
+      }
+
+      @media (max-width: 768px) {
+        .ar-container {
+          height: 50vh;
+        }
+
+        .gallery {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>معرض الواقع المعزز</h1>
+      <p class="subtitle">تجربة تفاعلية تجمع بين الصور والواقع المعزز</p>
+    </header>
+
+    <div class="container">
+      <h2 class="section-title">تجربة الواقع المعزز</h2>
+
+      <div class="instructions">
+        <h3>كيفية الاستخدام:</h3>
+        <ol>
+          <li>افتح الموقع على جهازك المحمول</li>
+          <li>اسمح للكاميرا بالوصول</li>
+          <li>وجه الكاميرا نحو أي سطح مستو</li>
+          <li>اضغط على أي صورة من المعرض لرؤيتها في الواقع المعزز</li>
+        </ol>
+      </div>
+
+      <div class="ar-container">
+        <a-scene
+          embedded
+          arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+        >
+          <a-marker preset="hiro" id="marker">
+            <a-entity
+              position="0 0 0"
+              scale="0.5 0.5 0.5"
+              gltf-model=""
+              id="ar-model"
+            >
+            </a-entity>
+          </a-marker>
+          <a-entity camera></a-entity>
+        </a-scene>
+      </div>
+
+      <h2 class="section-title">معرض الصور</h2>
+
+      <div class="gallery">
+        <div
+          class="gallery-item"
+          onclick="showARModel('https://arjs-cdn.s3.amazonaws.com/aframe/examples/image-tracking/nft/trex/scene.gltf', 'نموذج تي ريكس')"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1527474305487-b87b222841cc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+            alt="T-Rex"
+            class="gallery-img"
+          />
+          <div class="gallery-caption">نموذج تي ريكس</div>
+        </div>
+
+        <div
+          class="gallery-item"
+          onclick="showARModel('https://arjs-cdn.s3.amazonaws.com/aframe/examples/image-tracking/nft/astronaut/scene.gltf', 'رائد فضاء')"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1454789548928-9efd52dc4031?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+            alt="Astronaut"
+            class="gallery-img"
+          />
+          <div class="gallery-caption">رائد فضاء</div>
+        </div>
+
+        <div
+          class="gallery-item"
+          onclick="showARModel('https://arjs-cdn.s3.amazonaws.com/aframe/examples/image-tracking/nft/dingo/scene.gltf', 'كلب دنجو')"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1586671267731-da2cf3ceeb80?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+            alt="Dingo"
+            class="gallery-img"
+          />
+          <div class="gallery-caption">كلب دنجو</div>
+        </div>
+
+        <div
+          class="gallery-item"
+          onclick="showARModel('https://arjs-cdn.s3.amazonaws.com/aframe/examples/image-tracking/nft/flowers/scene.gltf', 'زهور')"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1526397751294-331021109fbd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+            alt="Flowers"
+            class="gallery-img"
+          />
+          <div class="gallery-caption">زهور</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2023 معرض الواقع المعزز. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+      function showARModel(modelUrl, title) {
+        const model = document.getElementById("ar-model");
+        model.setAttribute("gltf-model", modelUrl);
+
+        // إظهار تنبيه للمستخدم
+        alert(
+          `سيتم عرض ${title} في الواقع المعزز. وجه الكاميرا نحو أي سطح مستو.`
+        );
+
+        // في تطبيق حقيقي، يمكنك إضافة المزيد من التحكم هنا
+        // مثل تغيير حجم النموذج أو موقعه
+        model.setAttribute("scale", "0.5 0.5 0.5");
+        model.setAttribute("position", "0 0 0");
+      }
+
+      // للهواتف: طلب إذن الكاميرا عند النقر على أي عنصر
+      document.querySelectorAll(".gallery-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices
+              .getUserMedia({ video: true })
+              .then(() => console.log("Camera access granted"))
+              .catch((err) =>
+                alert("يجب السماح بالوصول إلى الكاميرا لتجربة الواقع المعزز")
+              );
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
